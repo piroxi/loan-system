@@ -1,0 +1,22 @@
+@startuml
+|Borrower|
+start
+:Input loan proposal that contains:\n1 . borrower id number\n2. principal amount\n3. rate, will define total interest that borrower will pay\n4. ROI return of investment, will define total profit received by investors\n\nthe system will then generate an agreement letter (pdf) and save the generated agreement letter;
+|Field |
+:Review Loan;
+if (Approve?) is (no) then
+#pink:**disproved**;
+:enter\n1. the reason of disapproval\n2. the employee id of the staff that disapproved the loan\n3. date of disapproval;
+detach
+else (yes)
+#lightgray:**approved**;
+:enter\n1. the picture proof of the a field validator has visited the borrower\n2. the employee id of field validator,\n3. date of approval;
+endif
+|Investors|
+:invest in approved loans;
+note right:a. loan can have multiple investors, each with each their own amount\nb. total of invested amount can not be bigger than the loan principal amount
+:Investment reached principal amount, no more investment can be made;
+|Disburser|
+:Fill out disbursement form that contains\n1. the loan agreement letter signed by borrower (pdf/jpeg)\n2. the employee id of the field officer that hands the money and/or collect the agreement letter\n3. date of disbursement;
+:Hands out principal amout to borrower;
+@enduml

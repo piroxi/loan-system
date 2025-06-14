@@ -1,0 +1,41 @@
+we are building a loan engine. A loan can a multiple state: proposed , approved, invested, disbursed. the rule of state:
+
+1. proposed is the initial state (when loan created it will has proposed state)
+    a. a proposed loan must contains several information:
+        i. borrower id number
+        ii. principal amount
+        iii. rate, will define total interest that borrower will pay
+        iv. ROI return of investment, will define total profit received by investors
+        v. link to the generated agreement letter (pdf)
+    b. once proposed it can be approved by field validator
+2. approved is once it approved by our staff.
+    a. a approval must contains several information:
+        i. the picture proof of the a field validator has visited the borrower
+        ii. the employee id of field validator
+        iii. date of approval
+    b. once approved it can not go back to proposed state
+    c. once approved loan is ready to be offered to investors/lender
+3. rejected is when a proposed loan is rejected by field validator. (Self added requirement)
+    a. a disproved must contains several information:
+        i. the reason for rejection
+        ii. the employee id of the staff that rejected the loan
+        iii. date of rejection
+    b. once disproved it can not go back to proposed state or approved state
+4. invested is once total amount of invested is equal the loan principal
+    a. loan can have multiple investors, each with each their own amount
+    b. total of invested amount can not be bigger than the loan principal amount
+    c. once invested all investors will receive an email containing link to agreement letter (pdf)
+5. disbursed is when is loan is given to borrower.
+    a. a disbursement must contains several information:
+        i. the loan agreement letter signed by borrower (pdf/jpeg)
+        ii. the employee id of the field officer that hands the money and/or collect the agreement letter
+        iii. date of disbursement
+
+movement between state can only move forward, and a loan only need following information:
+    1. borrower id number
+    2. principal amount
+    3. rate, will define total interest that borrower will pay
+    4. ROI return of investment, will define total profit received by investors
+    5. link to the generated agreement letter
+
+design a RESTFful api that satisfy above requirement.
