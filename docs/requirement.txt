@@ -15,12 +15,6 @@ we are building a loan engine. A loan can a multiple state: proposed , approved,
         iii. date of approval
     b. once approved it can not go back to proposed state
     c. once approved loan is ready to be offered to investors/lender
-3. rejected is when a proposed loan is rejected by field validator. (Self added requirement)
-    a. a disproved must contains several information:
-        i. the reason for rejection
-        ii. the employee id of the staff that rejected the loan
-        iii. date of rejection
-    b. once disproved it can not go back to proposed state or approved state
 4. invested is once total amount of invested is equal the loan principal
     a. loan can have multiple investors, each with each their own amount
     b. total of invested amount can not be bigger than the loan principal amount
@@ -39,3 +33,15 @@ movement between state can only move forward, and a loan only need following inf
     5. link to the generated agreement letter
 
 design a RESTFful api that satisfy above requirement.
+
+Self Added Requirements and Assumptions:
+-------------------
+1. New State: Rejected - rejected is when a proposed loan is rejected by field validator
+    a. a disproved must contains several information:
+        i. the reason for rejection
+        ii. the employee id of the staff that rejected the loan
+        iii. date of rejection
+    b. once disproved it can not go back to proposed state or approved state
+2. Timestamps for approval and disbursed are generated automatically by the system.
+3. Agreement docs are generated during the proposal flow and can be accessed via a URL (dummy).
+4. The agreement docs will be printed and signed by the borrower during disbursement, which will then be scanned and linked on the disbursement api
