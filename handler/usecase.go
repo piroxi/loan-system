@@ -2,8 +2,8 @@ package handler
 
 import (
 	"context"
-	"load-service/entity"
-	"load-service/utils/constants"
+	"loan-service/entity"
+	"loan-service/utils/constants"
 )
 
 type LoanUsecaseInterface interface {

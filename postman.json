@@ -67,7 +67,7 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8080/api/loans/",
+              "raw": "http://localhost:8080/api/loans/create",
               "protocol": "http",
               "host": ["localhost"],
               "port": "8080",

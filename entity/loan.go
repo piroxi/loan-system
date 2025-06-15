@@ -1,7 +1,7 @@
 package entity
 
 import (
-	"load-service/utils/constants"
+	"loan-service/utils/constants"
 	"time"
 )
 
@@ -16,7 +16,7 @@ type Loan struct {
 
 	ApprovedInfo     *LoanApproval     `gorm:"foreignKey:LoanID" json:"approved_info,omitempty"`
 	DisbursementInfo *LoanDisbursement `gorm:"foreignKey:LoanID" json:"disbursement_info,omitempty"`
-	Investments      []Investment      `gorm:"foreignKey:LoanID" json:"investments"`
+	Investments      []Investment      `gorm:"foreignKey:LoanID" json:"investments",omitempty`
 }
 
 type LoanApproval struct {

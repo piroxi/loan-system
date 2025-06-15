@@ -1,21 +1,13 @@
 package usecase
 
 import (
-	"load-service/entity"
-	"load-service/utils/constants"
-	"load-service/utils/logger"
+	"loan-service/entity"
+	"loan-service/utils/constants"
+	"loan-service/utils/logger"
 
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 )
-
-var RoleMap = []constants.UserRole{
-	constants.RoleAdmin,
-	constants.RoleBorrower,
-	constants.RoleValidator,
-	constants.RoleInvestor,
-	constants.RoleDisburser,
-}
 
 type UserUsecase struct {
 	db *gorm.DB
@@ -38,8 +30,8 @@ func (u UserUsecase) GetUserRole(userID uint) (constants.UserRole, error) {
 	var user entity.User
 	if err := u.db.First(&user, userID).Error; err != nil {
 		logger.Error("Failed to fetch user by ID", zap.Uint("userID", userID), zap.Error(err))
-		return "", err
+		return constants.RoleUnknown, err
 	}
 
-	return RoleMap[user.Role], nil
+	return constants.RoleMap[user.Role], nil
 }

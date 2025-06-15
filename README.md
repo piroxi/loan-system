@@ -58,7 +58,7 @@ stateDiagram-v2
 | investor1 | Investor    | Users who invest in approved loans    |
 | disburser | Disburser   | Field officers who disburse funds     |
 
-## Sample Users
+### Sample Users
 ```sql
 INSERT INTO users (id, username, role, created_at, updated_at) VALUES
 ('1', 'borrower1', 1, NOW(), NOW()),
@@ -221,7 +221,7 @@ Response (200 OK):
 }
 ```
 
-#### Disburse Loan (Field Officer)
+#### Disburse Loan (Disburser)
 ```http
 POST /loans/disburse
 Authorization: Bearer {token}
@@ -269,7 +269,7 @@ go mod tidy
 # 5. Run application
 go run server/main.go
 
-# 6. Optional: Import the postman collection to test the APIs
+# 6. Optional: Import the postman collection to test the APIs. if you do, please create/use an environment
 ```
 
 ## Configuration

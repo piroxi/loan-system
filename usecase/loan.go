@@ -5,10 +5,10 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"load-service/entity"
-	"load-service/utils/constants"
-	errs "load-service/utils/errors"
-	"load-service/utils/logger"
+	"loan-service/entity"
+	"loan-service/utils/constants"
+	errs "loan-service/utils/errors"
+	"loan-service/utils/logger"
 	"time"
 
 	"codeberg.org/go-pdf/fpdf"
@@ -63,7 +63,7 @@ func (u *LoanUsecase) CreateLoan(loanRequest entity.RequestProposeLoan, borrower
 		logger.Error("Failed to create PDF", zap.Error(err))
 		return nil, errors.New("failed to create PDF document")
 	}
-	agreementLink := fmt.Sprintf("https://example.com/loans/%d/agreement/%s", loan.ID, pdfFileName)
+	agreementLink := fmt.Sprintf("https://example.com/loans/%d/%s", loan.ID, pdfFileName)
 	loan.AgreementLink = &agreementLink
 	if err := tx.Save(&loan).Error; err != nil {
 		logger.Error("Failed to save loan with PDF URL", zap.Error(err))
@@ -94,7 +94,7 @@ func (u *LoanUsecase) RejectLoan(rejectionRequest entity.RequestRejectLoan, vali
 
 	rejection := entity.LoanApproval{
 		LoanID:       loan.ID,
-		RejectReason: rejectionRequest.RejectReason,
+		RejectReason: &rejectionRequest.RejectReason,
 		ValidatorID:  validatorID,
 	}
 	if err := tx.Create(&rejection).Error; err != nil {

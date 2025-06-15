@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"load-service/entity"
-	"load-service/utils/auth"
+	"loan-service/entity"
+	"loan-service/utils/auth"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,6 +22,11 @@ func (h *UserHandler) signin(c *gin.Context) {
 	var body entity.RequestSignin
 	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(400, gin.H{"error": "Invalid request body"})
+		return
+	}
+
+	if body.Username == "" {
+		c.JSON(400, gin.H{"error": "Username is required"})
 		return
 	}
 

@@ -2,8 +2,8 @@ package auth
 
 import (
 	"fmt"
-	errs "load-service/utils/errors"
-	"load-service/utils/logger"
+	errs "loan-service/utils/errors"
+	"loan-service/utils/logger"
 	"sync"
 	"time"
 
@@ -13,6 +13,10 @@ import (
 
 type Authorizer struct {
 	secret string
+}
+
+func (a *Authorizer) GetSecret() string {
+	return a.secret
 }
 
 var (

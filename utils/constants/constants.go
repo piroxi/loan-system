@@ -18,4 +18,13 @@ const (
 	RoleValidator UserRole = "validator"
 	RoleInvestor  UserRole = "investor"
 	RoleDisburser UserRole = "disburser"
+	RoleUnknown   UserRole = "unknown"
 )
+
+var RoleMap = []UserRole{
+	RoleAdmin,
+	RoleBorrower,
+	RoleValidator,
+	RoleInvestor,
+	RoleDisburser,
+}

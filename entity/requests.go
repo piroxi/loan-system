@@ -16,8 +16,8 @@ type RequestApproveLoan struct {
 }
 
 type RequestRejectLoan struct {
-	LoanID       uint    `json:"loan_id" binding:"required"`
-	RejectReason *string `json:"reject_reason,omitempty"`
+	LoanID       uint   `json:"loan_id" binding:"required"`
+	RejectReason string `json:"reject_reason" binding:"required"`
 }
 
 type RequestAddInvestment struct {

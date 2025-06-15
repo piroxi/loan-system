@@ -1,16 +1,12 @@
 package handler
 
 import (
-	"load-service/entity"
-	"load-service/utils/auth"
-	"load-service/utils/constants"
-	errs "load-service/utils/errors"
-	"load-service/utils/logger"
+	"loan-service/entity"
+	"loan-service/utils/constants"
+	errs "loan-service/utils/errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"go.uber.org/zap"
-	"gorm.io/gorm"
 )
 
 type LoanHandler struct {
@@ -22,7 +18,7 @@ func RegisterLoanHandler(r *gin.RouterGroup, loanUsecase LoanUsecaseInterface, u
 	h := &LoanHandler{loanUsecase: loanUsecase, userUsecase: userUsecase}
 	g := r.Group("/loans", authMiddleware())
 
-	g.POST("/", h.createLoan)
+	g.POST("/create", h.createLoan)
 	g.GET("/:id", h.getLoan)
 	g.POST("/reject", h.rejectLoan)
 	g.POST("/approve", h.approveLoan)
@@ -51,6 +47,11 @@ func (h *LoanHandler) createLoan(c *gin.Context) {
 	var input entity.RequestProposeLoan
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if input.Principal <= 0 || input.ROI <= 0 || input.Rate <= 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid loan parameters"})
 		return
 	}
 
@@ -96,12 +97,9 @@ func (h *LoanHandler) approveLoan(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
 	approval, err := h.loanUsecase.ApproveLoan(input, userID)
 	if err != nil {
-		if err == gorm.ErrRecordNotFound {
-			c.JSON(http.StatusNotFound, gin.H{"error": errs.ErrLoanNotFoundApprover})
-			return
-		}
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -121,6 +119,12 @@ func (h *LoanHandler) addInvestment(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	if input.Amount <= 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: LoanID and Amount are required"})
+		return
+	}
+
 	investment, err := h.loanUsecase.AddInvestment(c, input, userID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -148,41 +152,4 @@ func (h *LoanHandler) disburseLoan(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": disbursement})
-}
-
-func (h *LoanHandler) verifyUserRole(userID uint, expectedRole constants.UserRole) bool {
-	role, err := h.userUsecase.GetUserRole(userID)
-	if err != nil {
-		logger.Error("Failed to get user role", zap.Uint("userID", userID), zap.Error(err))
-		return false
-	}
-	if role != expectedRole {
-		logger.Error("Unauthorized action for user role", zap.Uint("userID", userID), zap.String("role", string(role)))
-		return false
-	}
-	return true
-}
-
-func authMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		token := c.GetHeader("Authorization")
-		if token == "" {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
-			c.Abort()
-			return
-		}
-
-		tokenString := token[len("Bearer "):]
-
-		claims, err := auth.ClaimToken(tokenString)
-		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
-			c.Abort()
-			return
-		}
-
-		c.Set("userID", claims.UserID)
-
-		c.Next()
-	}
 }

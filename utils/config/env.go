@@ -1,7 +1,7 @@
 package config
 
 import (
-	"load-service/utils/auth"
+	"loan-service/utils/auth"
 
 	"github.com/caarlos0/env/v6"
 	"github.com/joho/godotenv"

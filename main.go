@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"load-service/entity"
-	"load-service/handler"
-	"load-service/usecase"
-	"load-service/utils/auth"
-	"load-service/utils/config"
+	"loan-service/entity"
+	"loan-service/handler"
+	"loan-service/usecase"
+	"loan-service/utils/auth"
+	"loan-service/utils/config"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
