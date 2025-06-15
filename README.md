@@ -44,6 +44,7 @@ stateDiagram-v2
 - Postgresl (any postgres can work, but i recommend [Postgres-app](https://postgresapp.com/) for newer user due to the easy gui)
 - Database browser (ie. [Dbeaver](https://dbeaver.io/))
 - [Go ~1.24.1](https://go.dev/doc/install)
+- [Redis](https://redis.io/docs/latest/operate/oss_and_stack/install/archive/install-redis/)
 
 ## API Documentation
 
@@ -264,12 +265,14 @@ go mod tidy
 
 # 3. Run the postgres and create a database
 
-# 4. Set up configuration (see below)
+# 4  Run Redis
 
-# 5. Run application
+# 5. Set up configuration (see below)
+
+# 6. Run application
 go run server/main.go
 
-# 6. Optional: Import the postman collection to test the APIs. if you do, please create/use an environment
+# 7. Optional: Import the postman collection to test the APIs. if you do, please create/use an environment
 ```
 
 ## Configuration
